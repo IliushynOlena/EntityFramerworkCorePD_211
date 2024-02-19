@@ -25,7 +25,8 @@ namespace EntityFramerworkCorePD_211
 
             foreach (var item in context.Clients)
             {
-                Console.WriteLine($"Client : name - {item.Name}. Email:  {item.Email}. Birthday :" +
+                Console.WriteLine($"Client : name - {item.Name}. Email:  " +
+                    $"{item.Email}. Birthday :" +
                     $"{item.Birthday?.ToShortDateString()} ");
             }
             //Linq to Entities
@@ -36,7 +37,8 @@ namespace EntityFramerworkCorePD_211
 
             foreach (var f in filteredFlights)
             {
-                Console.WriteLine($"Flight : {f.Number}. From : {f.DepartureCity,15} to {f.ArrivalCity}" +
+                Console.WriteLine($"Flight : {f.Number}. From : {f.DepartureCity,15} " +
+                    $"to {f.ArrivalCity}" +
                     $"Date :{f.DepartureTime.ToShortDateString(),20}");
 
             }
@@ -52,7 +54,8 @@ namespace EntityFramerworkCorePD_211
 
             foreach (var f in context.Flights)
             {
-                Console.WriteLine($"Flight : {f.Number} From : {f.DepartureCity,15} to {f.ArrivalCity}");
+                Console.WriteLine($"Flight : {f.Number} From : {f.DepartureCity,15} " +
+                    $"to {f.ArrivalCity}  Rating : {f.Rating}");
             }
 
         }
