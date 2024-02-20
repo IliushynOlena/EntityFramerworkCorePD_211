@@ -17,10 +17,10 @@ namespace EntityFramerworkCorePD_211.Entities
         public int? Rating { get; set; }//not null....or ...null
 
         //Navigation properties
-        public int AirplaneId { get; set; }
-        public Airplane Airplane { get; set; }
+        public int AirplaneId { get; set; }//foreign key
+        public Airplane Airplane { get; set; }//null
 
-        public ICollection<Client> Clients { get; set; }
+        public ICollection<Client> Clients { get; set; }//null
 
     }
 }
