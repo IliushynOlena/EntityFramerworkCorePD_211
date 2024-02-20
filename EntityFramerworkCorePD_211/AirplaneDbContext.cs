@@ -1,4 +1,5 @@
 ﻿using EntityFramerworkCorePD_211.Entities;
+using EntityFramerworkCorePD_211.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,8 @@ namespace EntityFramerworkCorePD_211
             modelBuilder.Entity<Client>().ToTable("Passangers");
             modelBuilder.Entity<Client>()
                 .Property(c => c.Name)
-                .IsRequired()
-                .HasMaxLength(100)
+                .IsRequired()//not null
+                .HasMaxLength(100)//nvarchar(100)
                 .HasColumnName("FirstName");
 
             modelBuilder.Entity<Client>()
@@ -76,58 +77,10 @@ namespace EntityFramerworkCorePD_211
                 .HasMany(f => f.Clients)
                 .WithMany(c => c.Flights);
 
-
-           //Initializator - Seeder
-           modelBuilder.Entity<Airplane>().HasData(new Airplane[]
-            {
-                new Airplane()
-                {
-                    Id = 1,
-                    Model = "Boing747",
-                    MaxPassanger = 300
-                },
-                new Airplane()
-                {
-                    Id = 2,
-                    Model = "AN914",
-                    MaxPassanger = 200
-                },
-                new Airplane()
-                {
-                    Id = 3,
-                    Model = "Mria",
-                    MaxPassanger = 150
-                }
-            });
-           modelBuilder.Entity<Flight>().HasData(new Flight[] {
-                new Flight()
-                {
-                     Number = 1,
-                     DepartureCity = "Kyiv",
-                     ArrivalCity = "Lviv",
-                     DepartureTime = new DateTime(2024,2,17),
-                     ArrivalTime = new DateTime(2024,2,17),
-                     AirplaneId = 1
-                },
-                new Flight()
-                {
-                     Number = 2,
-                     DepartureCity = "Varshava",
-                     ArrivalCity = "Lviv",
-                     DepartureTime = new DateTime(2024,2,18),
-                     ArrivalTime = new DateTime(2024,2,18),
-                     AirplaneId = 2
-                },
-                new Flight()
-                {
-                     Number = 3,
-                     DepartureCity = "Kyiv",
-                     ArrivalCity = "Lviv",
-                     DepartureTime = new DateTime(2024,2,22),
-                     ArrivalTime = new DateTime(2024,2,22),
-                     AirplaneId = 3
-                }
-            });
+            modelBuilder.SeedAirplanes();
+            modelBuilder.SeedFlights();
+          
+          
         }
 
     }

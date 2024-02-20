@@ -9,8 +9,8 @@ namespace EntityFramerworkCorePD_211.Entities
 {
     public class Airplane
     {
-        public int Id { get; set; }
-        public string Model { get; set; }
+        public int Id { get; set; }//Id int not null
+        public string Model { get; set; }//Model nvarchar(max) null
         public int MaxPassanger { get; set; }
 
         //Navigation properties
