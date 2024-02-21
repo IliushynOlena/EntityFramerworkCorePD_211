@@ -17,12 +17,12 @@ namespace EntityFramerworkCorePD_211
             //string name = null;
             //AirplaneDbContext c = null;
             AirplaneDbContext context = new AirplaneDbContext();
-            //context.Clients.Add(new Client()
-            //{
-            //    Name = "Volodia",
-            //    Birthday = new DateTime(2006, 12, 4),
-            //    Email = "volodia@gmail.com"
-            //});
+            context.Clients.Add(new Client()
+            {
+                Name = "Volodia",
+                Birthday = new DateTime(2006, 12, 4),
+                Email = "volodia@gmail.com"
+            });
             //context.SaveChanges();
 
             //foreach (var item in context.Clients)

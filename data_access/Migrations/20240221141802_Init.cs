@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace EntityFramerworkCorePD_211.Migrations
+namespace data_access.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -28,18 +28,18 @@ namespace EntityFramerworkCorePD_211.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Passangers",
+                name: "Credentials",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClientId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Passangers", x => x.Id);
+                    table.PrimaryKey("PK_Credentials", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,6 +52,7 @@ namespace EntityFramerworkCorePD_211.Migrations
                     ArrivalCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: true),
                     AirplaneId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -61,6 +62,26 @@ namespace EntityFramerworkCorePD_211.Migrations
                         name: "FK_Flights_Airplanes_AirplaneId",
                         column: x => x.AirplaneId,
                         principalTable: "Airplanes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Passangers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Passangers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Passangers_Credentials_Id",
+                        column: x => x.Id,
+                        principalTable: "Credentials",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -100,13 +121,33 @@ namespace EntityFramerworkCorePD_211.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Flights",
-                columns: new[] { "Number", "AirplaneId", "ArrivalCity", "ArrivalTime", "DepartureCity", "DepartureTime" },
+                table: "Credentials",
+                columns: new[] { "Id", "ClientId", "Login", "Password" },
                 values: new object[,]
                 {
-                    { 1, 1, "Lviv", new DateTime(2024, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kyiv", new DateTime(2024, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, "Lviv", new DateTime(2024, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Varshava", new DateTime(2024, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 3, "Lviv", new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kyiv", new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, null, "admin", "admin" },
+                    { 2, null, "user", "user" },
+                    { 3, null, "designer", "designer" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Flights",
+                columns: new[] { "Number", "AirplaneId", "ArrivalCity", "ArrivalTime", "DepartureCity", "DepartureTime", "Rating" },
+                values: new object[,]
+                {
+                    { 1, 1, "Lviv", new DateTime(2024, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kyiv", new DateTime(2024, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 2, 2, "Lviv", new DateTime(2024, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "Varshava", new DateTime(2024, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), null },
+                    { 3, 3, "Lviv", new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Kyiv", new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Passangers",
+                columns: new[] { "Id", "Birthday", "Email", "FirstName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2000, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "victor@gmail.com", "Victor" },
+                    { 2, new DateTime(2005, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "ivanka@gmail.com", "Ivanka" },
+                    { 3, new DateTime(2001, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "oleg@gmail.com", "Oleg" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -134,6 +175,9 @@ namespace EntityFramerworkCorePD_211.Migrations
 
             migrationBuilder.DropTable(
                 name: "Airplanes");
+
+            migrationBuilder.DropTable(
+                name: "Credentials");
         }
     }
 }
